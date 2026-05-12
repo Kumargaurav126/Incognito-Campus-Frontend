@@ -1,4 +1,4 @@
-const API_URL = "http://192.168.1.4:8080/api"; // your backend URL
+import API_URL from "../config";
 
 export async function getRooms() {
   const res = await fetch(`${API_URL}/rooms`);
@@ -10,9 +10,6 @@ export async function getMessagesByRoomName(roomName) {
   return res.json();
 }
 
-
 export async function getMyCollege() {
-//const res = await fetch(`${API_URL}/rooms`); 
-
-
+  // const res = await fetch(`${API_URL}/rooms`); 
 }
