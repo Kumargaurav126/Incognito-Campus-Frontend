@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import API_URL from "../../config";
 
 const Channels = () => {
-    const { rooms, setRooms } = useContext(ChatContext);
+    const { rooms, setRooms, mycollege, setmycollege } = useContext(ChatContext);
     const [loadingId, setLoadingId] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [creating, setCreating] = useState(false);
@@ -70,17 +70,20 @@ const Channels = () => {
     };
 
     const subscribeHandler = async (roomId) => {
-        if (!userId) {
-            toast.error("Please login to subscribe");
-            return;
-        }
+        if (!userId) { toast.error("Please login to subscribe"); return; }
         setLoadingId(roomId);
         try {
             await axios.post(`${API_URL}/users/${userId}/follow/${roomId}`);
             setSubscribedIds((prev) => new Set([...prev, roomId]));
+            
+            // Add room to mycollege so sidebar updates instantly
+            const subscribedRoom = rooms.find((r) => r.id === roomId);
+            if (subscribedRoom && !mycollege.find((r) => r.id === roomId)) {
+                setmycollege((prev) => [...prev, subscribedRoom]);
+            }
+            
             toast.success("Subscribed successfully!");
         } catch (error) {
-            console.error(error);
             toast.error(error.response?.data?.message || "Failed to subscribe");
         } finally {
             setLoadingId(null);
@@ -92,14 +95,13 @@ const Channels = () => {
         setLoadingId(roomId);
         try {
             await axios.delete(`${API_URL}/users/${userId}/unfollow/${roomId}`);
-            setSubscribedIds((prev) => {
-                const updated = new Set(prev);
-                updated.delete(roomId);
-                return updated;
-            });
+            setSubscribedIds((prev) => { const u = new Set(prev); u.delete(roomId); return u; });
+            
+            // Remove room from mycollege so sidebar updates instantly
+            setmycollege((prev) => prev.filter((r) => r.id !== roomId));
+            
             toast.success("Unsubscribed successfully!");
         } catch (error) {
-            console.error(error);
             toast.error(error.response?.data?.message || "Failed to unsubscribe");
         } finally {
             setLoadingId(null);

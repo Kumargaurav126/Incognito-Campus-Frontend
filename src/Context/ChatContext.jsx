@@ -72,7 +72,7 @@ export const ChatProvider = ({ children }) => {
   };
 
   return (
-    <ChatContext.Provider value={{ rooms, currentRoom, joinRoom, messages, sendMessage, mycollege, setmycollege, currentRoomId, currentRoomDescription }}>
+    <ChatContext.Provider value={{ rooms, setRooms, currentRoom, joinRoom, messages, sendMessage, mycollege, setmycollege, currentRoomId, currentRoomDescription }}>
       {children}
     </ChatContext.Provider>
   );
