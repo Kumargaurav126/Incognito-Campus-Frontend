@@ -1,11 +1,12 @@
 import Stomp from "stompjs";
 import SockJS from "sockjs-client";
-import { WS_URL } from "../config";
+import API_URL from "../config";
 
 let stompClient = null;
 
 export function connectWebSocket() {
-  const socket = new SockJS(`${WS_URL}/ws`);
+  const wsURL = API_URL.replace("/api", "");
+  const socket = new SockJS(`${wsURL}/ws`);
   stompClient = Stomp.over(socket);
   stompClient.debug = null;
 
