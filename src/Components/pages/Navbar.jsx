@@ -32,7 +32,6 @@ const Navbar = () => {
     localStorage.removeItem('userInfo');
     setDropdownOpen(false);
     navigate('/login');
-    window.location.reload();
   };
 
   return (
