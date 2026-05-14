@@ -29,8 +29,8 @@ const Collagelist = () => {
 
     if (!userInfo) {
         return (
-            <div className="flex items-center justify-center h-screen bg-blue-100">
-                <div className="bg-white p-6 rounded-lg shadow-lg">
+            <div className="flex items-center justify-center h-screen bg-blue-100 p-4">
+                <div className="bg-white p-6 rounded-lg shadow-lg text-sm md:text-base text-center">
                     Please log in to see your college rooms.
                 </div>
             </div>
@@ -38,19 +38,22 @@ const Collagelist = () => {
     }
 
     return (
-        <div className="bg-blue-100 w-full h-screen flex justify-between">
-            <ChatRoom />
+        <div className="bg-blue-100 w-full h-screen flex flex-col md:flex-row justify-between overflow-hidden">
+            
+            <div className="flex-1 w-full h-[60vh] md:h-screen overflow-hidden">
+                <ChatRoom />
+            </div>
 
-            <aside className="w-74 bg-linear-to-b from-white to-black p-6 border-l border-gray-900 h-screen overflow-y-auto shadow-lg">
-                <h2 className="font-sans font-bold mb-8 text-2xl text-black border-b-2 border-gray-700 pb-2 tracking-wide">
+            <aside className="w-full md:w-72 lg:w-80 bg-linear-to-b from-white to-black p-4 md:p-6 border-t md:border-t-0 md:border-l border-gray-900 h-[40vh] md:h-screen overflow-y-auto shadow-[0_-4px_10px_rgba(0,0,0,0.1)] md:shadow-lg flex flex-col z-10">
+                <h2 className="font-sans font-bold mb-4 md:mb-8 text-xl md:text-2xl text-black border-b-2 border-gray-700 pb-2 tracking-wide shrink-0">
                     Chat Rooms
                 </h2>
-                <ul className="space-y-4">
+                <ul className="space-y-3 md:space-y-4 flex-1 overflow-y-auto pr-1">
                     {mycollege.map((room) => (
                         <li
                             key={room.id || room.roomName}
                             onClick={() => joinRoom(room)}
-                            className={`cursor-pointer p-4 rounded-lg transition-all duration-300 ${
+                            className={`cursor-pointer p-3 md:p-4 rounded-lg transition-all duration-300 ${
                                 currentRoom === room.roomName
                                     ? "bg-purple-600 text-white shadow-md"
                                     : "bg-white bg-opacity-50 hover:bg-opacity-70 shadow-sm"
@@ -64,9 +67,9 @@ const Collagelist = () => {
                             }}
                             aria-pressed={currentRoom === room.roomName}
                         >
-                            <div className="font-bold text-lg mb-1">{room.roomName}</div>
+                            <div className="font-bold text-base md:text-lg mb-1">{room.roomName}</div>
                             {room.name && (
-                                <div className={`text-sm font-semibold ${
+                                <div className={`text-xs md:text-sm font-semibold ${
                                     currentRoom === room.roomName ? "text-purple-100" : "text-black"
                                 }`}>
                                     {room.name}
@@ -75,7 +78,7 @@ const Collagelist = () => {
                         </li>
                     ))}
                     {mycollege.length === 0 && (
-                        <li className="font-bold text-blue-800 italic text-center py-4 bg-white bg-opacity-50 rounded-lg">
+                        <li className="font-bold text-blue-800 italic text-center py-4 bg-white bg-opacity-50 rounded-lg text-sm md:text-base">
                             No rooms available.
                         </li>
                     )}

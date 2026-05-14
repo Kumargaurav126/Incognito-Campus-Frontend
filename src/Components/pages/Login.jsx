@@ -5,16 +5,14 @@ import { BsIncognito } from "react-icons/bs"
 import API_URL from "../../config";
 
 const Login = () => {
-  const [tab, setTab] = useState('login') // 'login' | 'register'
+  const [tab, setTab] = useState('login')
   const navigate = useNavigate()
 
-  // Login state
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
   const [loginLoading, setLoginLoading] = useState(false)
   const [loginError, setLoginError] = useState('')
 
-  // Register state
   const [regName, setRegName] = useState('')
   const [regEmail, setRegEmail] = useState('')
   const [regPassword, setRegPassword] = useState('')
@@ -79,13 +77,11 @@ const Login = () => {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-linear-to-br from-purple-950 via-indigo-900 to-slate-900 p-4 relative overflow-hidden">
 
-      {/* Background decorative blobs */}
       <div className="absolute top-[-80px] left-[-80px] w-72 h-72 bg-purple-600 opacity-20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-[-60px] right-[-60px] w-96 h-96 bg-indigo-500 opacity-20 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative w-full max-w-md">
 
-        {/* Logo */}
         <div className="flex flex-col items-center mb-8">
           <div className="bg-white/10 backdrop-blur-sm p-4 rounded-2xl mb-3 shadow-lg">
             <BsIncognito className="text-4xl text-white" />
@@ -94,10 +90,8 @@ const Login = () => {
           <p className="text-purple-300 text-xs mt-1 tracking-widest uppercase">Anonymous · Real-time · Campus</p>
         </div>
 
-        {/* Card */}
         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl overflow-hidden">
 
-          {/* Tabs */}
           <div className="flex border-b border-white/10">
             <button
               onClick={() => { setTab('login'); setLoginError('') }}
@@ -123,7 +117,6 @@ const Login = () => {
 
           <div className="p-8">
 
-            {/* LOGIN FORM */}
             {tab === 'login' && (
               <form onSubmit={handleLogin} className="space-y-5">
                 <div>
@@ -155,7 +148,7 @@ const Login = () => {
                   </div>
                 )}
 
-                <div className="flex items-center justify-between text-xs text-purple-300">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-purple-300 gap-3 sm:gap-0">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="checkbox" className="accent-purple-500" />
                     Remember me
@@ -188,7 +181,6 @@ const Login = () => {
               </form>
             )}
 
-            {/* REGISTER FORM */}
             {tab === 'register' && (
               <form onSubmit={handleRegister} className="space-y-4">
                 <div className="grid grid-cols-1 gap-4">
@@ -225,7 +217,7 @@ const Login = () => {
                       className="w-full bg-white/10 border border-white/20 text-white placeholder-white/30 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-semibold text-purple-200 mb-1.5 uppercase tracking-widest">College</label>
                       <input

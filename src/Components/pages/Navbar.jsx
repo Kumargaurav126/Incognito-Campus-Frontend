@@ -17,7 +17,6 @@ const Navbar = () => {
     }
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -35,18 +34,16 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex items-center justify-between bg-white px-6 py-4 shadow-md">
-      {/* Logo */}
-      <div className="flex items-center space-x-2">
-        <h1 className="text-xl font-semibold flex items-center gap-2">
+    <div className="flex flex-wrap items-center justify-between bg-white px-4 md:px-6 py-3 md:py-4 shadow-md">
+      <div className="flex items-center space-x-2 order-1">
+        <h1 className="text-lg md:text-xl font-semibold flex items-center gap-1 md:gap-2">
           <BsIncognito className="text-xl text-purple-700" />
           <span className="text-gray-800">INCOGNITO</span>
           <span className="text-purple-700 font-bold">CAMPUS</span>
         </h1>
       </div>
 
-      {/* Search */}
-      <div className="w-1/3">
+      <div className="w-full md:w-1/3 order-3 md:order-2 mt-3 md:mt-0">
         <div className="relative">
           <input
             type="text"
@@ -64,21 +61,19 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* User Info + Dropdown */}
       {userName ? (
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative order-2 md:order-3" ref={dropdownRef}>
           <button
             onClick={() => setDropdownOpen((prev) => !prev)}
-            className="flex items-center space-x-2 px-3 py-2 rounded-full hover:bg-purple-50 transition duration-200 cursor-pointer"
+            className="flex items-center space-x-1 md:space-x-2 px-2 md:px-3 py-2 rounded-full hover:bg-purple-50 transition duration-200 cursor-pointer"
           >
-            <FaCircleUser className="w-8 h-8 text-purple-600" />
-            <span className="text-sm font-medium text-gray-800">{userName}</span>
+            <FaCircleUser className="w-7 h-7 md:w-8 md:h-8 text-purple-600" />
+            <span className="text-sm font-medium text-gray-800 hidden sm:block">{userName}</span>
             <svg className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
 
-          {/* Dropdown Menu */}
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-50">
               <div className="px-4 py-3 border-b border-gray-100">
@@ -98,12 +93,14 @@ const Navbar = () => {
           )}
         </div>
       ) : (
-        <button
-          onClick={() => navigate('/login')}
-          className="bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold px-5 py-2 rounded-full transition duration-200"
-        >
-          Sign In
-        </button>
+        <div className="order-2 md:order-3">
+          <button
+            onClick={() => navigate('/login')}
+            className="bg-purple-600 hover:bg-purple-700 text-white text-xs md:text-sm font-semibold px-4 md:px-5 py-2 rounded-full transition duration-200"
+          >
+            Sign In
+          </button>
+        </div>
       )}
     </div>
   );
