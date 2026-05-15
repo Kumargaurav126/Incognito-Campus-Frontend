@@ -81,11 +81,6 @@ const VerticalNavbar = () => {
             </svg>
             <span className="text-[10px] font-medium">Channels</span>
           </Link>
-
-          <Link to={userInfo ? "/profile" : "/login"} className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg ${location.pathname === '/profile' ? 'text-purple-700' : 'text-gray-500'}`}>
-            <FaUserCircle className="text-xl" />
-            <span className="text-[10px] font-medium">Profile</span>
-          </Link>
         </div>
       </div>
     </>
