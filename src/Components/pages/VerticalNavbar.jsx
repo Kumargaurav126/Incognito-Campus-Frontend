@@ -41,11 +41,6 @@ const VerticalNavbar = () => {
         </svg>
         <span className="font-medium">Channels</span>
       </ProtectedLink>
-
-      <ProtectedLink to="/profile" onClick={onClick}>
-        <FaUserCircle className="w-5 h-5 text-purple-700 shrink-0" />
-        <span className="font-medium">Profile</span>
-      </ProtectedLink>
     </>
   );
 
