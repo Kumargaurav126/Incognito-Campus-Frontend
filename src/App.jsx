@@ -8,7 +8,6 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./Components/pages/Login";
 import Channels from "./Components/pages/Channels";
 import Search from "./Components/pages/Search";
-import Profile from "./Components/pages/Profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -28,7 +27,6 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/channels" element={<Channels />} />
               <Route path="/search" element={<Search />} />
-              <Route path="/profile" element={<Profile />} />
             </Routes>
           </div>
         </div>
