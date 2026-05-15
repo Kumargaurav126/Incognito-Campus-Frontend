@@ -1,5 +1,4 @@
 import React from "react";
-import RoomList from "./Components/RoomList";
 import ChatRoom from "./Components/ChatRoom";
 import Navbar from "./Components/pages/Navbar";
 import VerticalNavbar from "./Components/pages/VerticalNavbar";
