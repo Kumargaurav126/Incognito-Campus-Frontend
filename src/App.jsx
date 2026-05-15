@@ -8,6 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./Components/pages/Login";
 import Channels from "./Components/pages/Channels";
 import Search from "./Components/pages/Search";
+import Profile from "./Components/pages/Profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,9 +19,8 @@ export default function App() {
         <Navbar />
         <ToastContainer position="top-center" />
 
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-1">
           <VerticalNavbar />
-          {/* Add bottom padding on mobile to account for bottom nav */}
           <div className="flex-1 overflow-auto pb-16 md:pb-0">
             <Routes>
               <Route path="/" element={<Home />} />
@@ -28,6 +28,7 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/channels" element={<Channels />} />
               <Route path="/search" element={<Search />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </div>
         </div>
