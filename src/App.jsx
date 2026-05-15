@@ -1,5 +1,5 @@
 import React from "react";
-import { ChatProvider } from "./Context/ChatContext";
+import RoomList from "./Components/RoomList";
 import ChatRoom from "./Components/ChatRoom";
 import Navbar from "./Components/pages/Navbar";
 import VerticalNavbar from "./Components/pages/VerticalNavbar";
@@ -8,40 +8,36 @@ import Collagelist from "./Components/pages/Collagelist";
 import { Routes, Route } from "react-router-dom";
 import Login from "./Components/pages/Login";
 import Channels from "./Components/pages/Channels";
-import ErrorBoundary from "./Components/pages/ErrorBoundary";
 import Search from "./Components/pages/Search";
-
-import { ToastContainer, toast } from "react-toastify";
+import Profile from "./Components/pages/Profile";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   try {
     return (
-   
-   <div >
-      
-      
-      <Navbar />
-      <ToastContainer position="top-center" />
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <ToastContainer position="top-center" />
 
-
-      <div className="flex ">
-      <VerticalNavbar  />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/mycollage" element={<Collagelist />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/channels" element={<Channels />} />
-        <Route path="/search" element={<Search />} />
-      </Routes>
+        <div className="flex flex-1 overflow-hidden">
+          <VerticalNavbar />
+          {/* Add bottom padding on mobile to account for bottom nav */}
+          <div className="flex-1 overflow-auto pb-16 md:pb-0">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/mycollage" element={<Collagelist />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/channels" element={<Channels />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </div>
+        </div>
       </div>
-    </div>
-
-
     );
   } catch (error) {
     console.error("Error rendering App:", error);
-    return <div>Something went wrong. Please check the console for details.</div>
+    return <div>Something went wrong. Please check the console for details.</div>;
   }
-
 }

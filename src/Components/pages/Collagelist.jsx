@@ -1,36 +1,33 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ChatContext } from "../../Context/ChatContext";
 import ChatRoom from "../ChatRoom";
 import axios from "axios";
 import API_URL from "../../config";
 
 const Collagelist = () => {
-    const { joinRoom, currentRoom, mycollege, setmycollege, refreshTrigger } = useContext(ChatContext);
+    const { joinRoom, currentRoom, mycollege, setmycollege } = useContext(ChatContext);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     const id = userInfo?.id;
 
     useEffect(() => {
         if (!id) return;
-
         const fetchRooms = async () => {
             try {
                 const response = await axios.get(`${API_URL}/users/${id}/rooms`);
-                
-                const activeRooms = response.data.filter(room => !room.isDeleted && !room.deletedAt);
-                setmycollege(activeRooms);
+                setmycollege(response.data);
             } catch (error) {
-                console.error(error);
+                console.error("Error fetching rooms:", error);
             }
         };
-
         fetchRooms();
-    }, [id, setmycollege, refreshTrigger]);
+    }, [id, setmycollege]);
 
     if (!userInfo) {
         return (
-            <div className="flex items-center justify-center h-screen bg-blue-100 p-4">
-                <div className="bg-white p-6 rounded-lg shadow-lg text-sm md:text-base text-center">
+            <div className="flex items-center justify-center h-screen bg-blue-100 w-full">
+                <div className="bg-white p-6 rounded-lg shadow-lg text-center">
                     Please log in to see your college rooms.
                 </div>
             </div>
@@ -38,48 +35,82 @@ const Collagelist = () => {
     }
 
     return (
-        <div className="bg-blue-100 w-full h-screen flex flex-col md:flex-row justify-between overflow-hidden">
-            
-            <div className="flex-1 w-full h-[60vh] md:h-screen overflow-hidden">
+        <div className="w-full h-screen flex overflow-hidden relative bg-blue-50 pb-14 md:pb-0">
+
+            {/* Mobile overlay */}
+            {sidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-black/40 z-30 md:hidden"
+                    onClick={() => setSidebarOpen(false)}
+                />
+            )}
+
+            {/* Chat area */}
+            <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+                {/* Mobile header with room list toggle */}
+                <div className="md:hidden flex items-center justify-between px-4 py-2 bg-white border-b border-gray-200 shadow-sm">
+                    <span className="text-sm font-semibold text-gray-700">
+                        {currentRoom || "Select a room"}
+                    </span>
+                    <button
+                        onClick={() => setSidebarOpen(true)}
+                        className="flex items-center gap-1.5 bg-purple-100 text-purple-700 text-xs font-semibold px-3 py-1.5 rounded-full"
+                    >
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        Rooms
+                    </button>
+                </div>
                 <ChatRoom />
             </div>
 
-            <aside className="w-full md:w-72 lg:w-80 bg-linear-to-b from-white to-black p-4 md:p-6 border-t md:border-t-0 md:border-l border-gray-900 h-[40vh] md:h-screen overflow-y-auto shadow-[0_-4px_10px_rgba(0,0,0,0.1)] md:shadow-lg flex flex-col z-10">
-                <h2 className="font-sans font-bold mb-4 md:mb-8 text-xl md:text-2xl text-black border-b-2 border-gray-700 pb-2 tracking-wide shrink-0">
-                    Chat Rooms
-                </h2>
-                <ul className="space-y-3 md:space-y-4 flex-1 overflow-y-auto pr-1">
+            {/* Sidebar — desktop always visible, mobile slide-in */}
+            <aside className={`
+                fixed md:static top-0 right-0 h-full z-40
+                w-64 md:w-64 lg:w-72
+                bg-gradient-to-b from-white to-gray-900
+                border-l border-gray-900 shadow-lg
+                transform transition-transform duration-300 ease-in-out
+                ${sidebarOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}
+                flex flex-col
+                pb-14 md:pb-0
+            `}>
+                <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-700">
+                    <h2 className="font-bold text-xl text-white tracking-wide">Chat Rooms</h2>
+                    <button
+                        className="md:hidden text-white/60 hover:text-white text-2xl leading-none"
+                        onClick={() => setSidebarOpen(false)}
+                    >
+                        &times;
+                    </button>
+                </div>
+
+                <ul className="space-y-3 p-4 overflow-y-auto flex-1">
                     {mycollege.map((room) => (
                         <li
                             key={room.id || room.roomName}
-                            onClick={() => joinRoom(room)}
-                            className={`cursor-pointer p-3 md:p-4 rounded-lg transition-all duration-300 ${
-                                currentRoom === room.roomName
+                            onClick={() => { joinRoom(room); setSidebarOpen(false); }}
+                            className={`cursor-pointer p-3 rounded-lg transition-all duration-300 ${
+                                currentRoom === room.name
                                     ? "bg-purple-600 text-white shadow-md"
-                                    : "bg-white bg-opacity-50 hover:bg-opacity-70 shadow-sm"
+                                    : "bg-white bg-opacity-20 hover:bg-opacity-30 shadow-sm text-white"
                             }`}
                             role="button"
                             tabIndex={0}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                    joinRoom(room);
-                                }
-                            }}
-                            aria-pressed={currentRoom === room.roomName}
+                            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { joinRoom(room); setSidebarOpen(false); } }}
                         >
-                            <div className="font-bold text-base md:text-lg mb-1">{room.roomName}</div>
-                            {room.name && (
-                                <div className={`text-xs md:text-sm font-semibold ${
-                                    currentRoom === room.roomName ? "text-purple-100" : "text-black"
-                                }`}>
-                                    {room.name}
+                            <div className="font-bold text-sm mb-0.5">{room.name}</div>
+                            {room.college && (
+                                <div className={`text-xs ${currentRoom === room.name ? "text-purple-100" : "text-gray-300"}`}>
+                                    {room.college}
                                 </div>
                             )}
                         </li>
                     ))}
                     {mycollege.length === 0 && (
-                        <li className="font-bold text-blue-800 italic text-center py-4 bg-white bg-opacity-50 rounded-lg text-sm md:text-base">
-                            No rooms available.
+                        <li className="text-gray-400 italic text-center py-6 text-sm">
+                            No rooms available. Subscribe to channels first.
                         </li>
                     )}
                 </ul>
