@@ -55,27 +55,29 @@ const Navbar = () => {
       {/* Search — hidden on mobile, shown on md+ */}
       <div className="w-1/3 hidden md:block">
         <div className="relative">
-          <input
-            type="text"
-            placeholder="Search something here..."
-            className="w-full rounded-full bg-gray-100 py-2 pl-4 pr-10 text-sm text-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-300"
-            onKeyDown={handleSearch}
-          />
-          <svg className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M11.742 10.344a6.5 6.5 0 111.397-1.398l3.85 3.85a1 1 0 01-1.415 1.415l-3.85-3.85zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z" />
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" strokeLinecap="round" />
           </svg>
-        </div>
+        <input  
+          type="text"
+          placeholder="Search channels, colleges..."
+          className="w-full rounded-full bg-gray-100 py-2 pl-9 pr-4 text-sm text-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:bg-white transition"
+          onKeyDown={handleSearch}
+        />
       </div>
+    </div>
 
       {/* Right side */}
       <div className="flex items-center gap-2">
         {/* Mobile search icon */}
         <button
-          className="md:hidden p-2 rounded-full hover:bg-gray-100 transition"
+          className="md:hidden p-2 rounded-full hover:bg-purple-50 text-purple-600 transition"
           onClick={() => setSearchOpen(!searchOpen)}
         >
-          <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M11.742 10.344a6.5 6.5 0 111.397-1.398l3.85 3.85a1 1 0 01-1.415 1.415l-3.85-3.85zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z" />
+          <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" strokeLinecap="round" />
           </svg>
         </button>
 
@@ -100,13 +102,6 @@ const Navbar = () => {
                   <p className="text-sm font-semibold text-gray-800 truncate">{userName}</p>
                 </div>
                 <button
-                  onClick={() => { navigate('/profile'); setDropdownOpen(false); }}
-                  className="w-full flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition duration-200"
-                >
-                  <FaCircleUser className="w-4 h-4" />
-                  Profile
-                </button>
-                <button
                   onClick={handleLogout}
                   className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition duration-200"
                 >
@@ -129,21 +124,23 @@ const Navbar = () => {
       </div>
 
       {/* Mobile search bar dropdown */}
+      {/* Mobile search dropdown */}
       {searchOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white shadow-md p-3 md:hidden z-50">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search channels, colleges..."
-              className="w-full rounded-full bg-gray-100 py-2 pl-4 pr-10 text-sm text-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-300"
-              onKeyDown={handleSearch}
-              autoFocus
-            />
-            <svg className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 111.397-1.398l3.85 3.85a1 1 0 01-1.415 1.415l-3.85-3.85zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z" />
-            </svg>
-          </div>
-        </div>
+  <div className="absolute top-full left-0 right-0 bg-white shadow-lg border-t border-gray-100 p-3 md:hidden z-50">
+    <div className="relative">
+      <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-400 w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" />
+        <path d="M21 21l-4.35-4.35" strokeLinecap="round" />
+      </svg>
+      <input
+        type="text"
+        placeholder="Search channels, colleges..."
+        className="w-full rounded-full bg-purple-50 border border-purple-200 py-2.5 pl-9 pr-4 text-sm text-gray-700 placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+        onKeyDown={handleSearch}
+        autoFocus
+      />
+    </div>
+  </div>
       )}
     </div>
   );
